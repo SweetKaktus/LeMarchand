@@ -1,4 +1,8 @@
 import { useState } from 'react'
+import Searchbar from './components/Searchbar'
+import ItemCategory from './components/ItemCategory'
+import ItemRow from './components/ItemRow'
+
 
 function App() {
   const ITEMS = [
@@ -27,11 +31,42 @@ function App() {
   // et le papier
   // Le tableau doit être centré
 
+  const [search, setSearch] = useState("")
+
   return (
-    <>
+    <div>
       <h1>Le Marchand</h1>
-      <Searchbar />
-    </>
+      {/* <Searchbar search={search} onSearch={setSearch} /> */}
+      <ItemTable items={ITEMS}/>
+    </div>
+  )
+}
+
+function ItemTable({items}) {
+  const itemRows = []
+  let lastCat = null
+
+  for (let item of items) {
+    if (item.category !== lastCat) {
+      itemRows.push(<ItemCategory key={item.category} category={item.category} />)
+    }
+    lastCat = item.category
+    itemRows.push(<ItemRow key={item.nom} item={item}/>)
+  }
+  return (
+    <table className="w-full text-sm text-left rtl:text-right text-gray-800 dark:text-gray-400">
+      <thead>
+        <tr>
+          <td>Nom</td>
+          <td>Prix</td>
+          <td>Rareté</td>
+          <td>Stock</td>
+        </tr>
+      </thead>
+      <tbody>
+        {itemRows}
+      </tbody>
+    </table>
   )
 }
 

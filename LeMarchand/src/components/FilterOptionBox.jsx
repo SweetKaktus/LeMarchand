@@ -1,11 +1,12 @@
-function FilterOptionBox({isChecked, onCheck, ...item}) {
-    const {category} = item
+function FilterOptionBox({category}) {
     const idCat = "chkbx"+{category}
+    
+    
     return (
-        <>
-            <input type="checkbox" name={idCat} id={idCat} checked={isChecked} onChange={(e) => onCheck(e.target.checked)} />
-            <label htmlFor={idCat}>Show {idCat}</label>
-        </>
+        <div style={{display: "flex", flexDirection: "row", justifyContent:"start", alignItems:"center", padding: "1.3rem"}}>
+            <input style={{margin:"1rem", padding:"1rem"}}type="checkbox" name={category} id={category} />
+            <label htmlFor={category}>Cacher les {category}</label>
+        </div>
     )
 }
 

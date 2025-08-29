@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Searchbar from './components/Searchbar'
 import ItemCategory from './components/ItemCategory'
 import ItemRow from './components/ItemRow'
+import FilterOptionBox from './components/FilterOptionBox'
 
 
 function App() {
@@ -33,9 +34,22 @@ function App() {
 
   const [search, setSearch] = useState("")
 
+  let lastCat = null
+  let filterOptionArray = []
+
+  for (let item of ITEMS) {
+    if (item.category !== lastCat) {
+      filterOptionArray.push(<FilterOptionBox key={item.category} category={item.category}/>)
+    }
+    lastCat = item.category
+  } //#endregion
+
   return (
     <div>
       <h1>Le Marchand</h1>
+      <div style={{display: 'flex', flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
+        {filterOptionArray}
+      </div>
       {/* <Searchbar search={search} onSearch={setSearch} /> */}
       <ItemTable items={ITEMS}/>
     </div>

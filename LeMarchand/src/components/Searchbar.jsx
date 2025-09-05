@@ -1,7 +1,11 @@
-function Searchbar(search, onSearch) {
+function Searchbar({search, setSearch}) {
+    const handleChange = (e) => {
+        setSearch(e.target.value)
+    }
+
     return(
         <>
-            <input type="search" name="searchbar" id="searchbar" value={search} onChange={(e) => onSearch(e.target.value)} placeholder="Rechercher..."/>
+            <input type="text" name="searchbar" id="searchbar" value={search} onChange={handleChange} placeholder="Rechercher..."/>
         </>
     )
 }

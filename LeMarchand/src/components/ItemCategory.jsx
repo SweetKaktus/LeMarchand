@@ -1,8 +1,8 @@
-function ItemCategory({category}) {
+function ItemCategory({category, hiddenCats}) {
     
     return (
-    <tr>
-        <td colSpan={2}><strong>{ category }</strong></td>
+    <tr hidden={hiddenCats.includes(category)} >
+        <th><strong>{ category }</strong></th>
     </tr>
     )
 }

@@ -32,49 +32,59 @@ function App() {
   // et le papier
   // Le tableau doit être centré
 
+  const myStyle = {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "1rem"
+  }
+
   const [search, setSearch] = useState("")
+  const [hiddenCats, setHiddenCats] = useState([])
 
   let lastCat = null
   let filterOptionArray = []
 
   for (let item of ITEMS) {
     if (item.category !== lastCat) {
-      filterOptionArray.push(<FilterOptionBox key={item.category} category={item.category}/>)
+      filterOptionArray.push(<FilterOptionBox key={item.category} hiddenCats={hiddenCats} setHiddenCats={setHiddenCats} category={item.category}/>)
     }
     lastCat = item.category
-  } //#endregion
+  }
 
   return (
-    <div>
+    <div style={{...myStyle, flexDirection: "column"}}>
       <h1>Le Marchand</h1>
-      <div style={{display: 'flex', flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
+      <div style={myStyle}>
         {filterOptionArray}
       </div>
-      {/* <Searchbar search={search} onSearch={setSearch} /> */}
-      <ItemTable items={ITEMS}/>
+      {/* <input type="text" name="searchbar" id="searchbar" value={search} onChange={handleChange} placeholder="Rechercher..."/> */}
+      <Searchbar search={search} setSearch={setSearch} style={myStyle} /> 
+      <ItemTable hiddenCats={hiddenCats} items={ITEMS} search={search} style={myStyle}/>
     </div>
   )
 }
 
-function ItemTable({items}) {
+function ItemTable({items, hiddenCats, search}) {
   const itemRows = []
   let lastCat = null
 
   for (let item of items) {
     if (item.category !== lastCat) {
-      itemRows.push(<ItemCategory key={item.category} category={item.category} />)
+      itemRows.push(<ItemCategory key={item.category} hiddenCats={hiddenCats} category={item.category} />)
     }
     lastCat = item.category
-    itemRows.push(<ItemRow key={item.nom} item={item}/>)
+    itemRows.push(<ItemRow key={item.nom} search={search} hiddenCats={hiddenCats} item={item}/>)
   }
+
   return (
-    <table className="w-full text-sm text-left rtl:text-right text-gray-800 dark:text-gray-400">
+    <table>
       <thead>
         <tr>
-          <td>Nom</td>
-          <td>Prix</td>
-          <td>Rareté</td>
-          <td>Stock</td>
+          <th>Nom</th>
+          <th style={{textAlign: "center"}}>Prix</th>
+          <th style={{textAlign: "center"}}>Rareté</th>
+          <th style={{textAlign: "center"}}>Stock</th>
         </tr>
       </thead>
       <tbody>
